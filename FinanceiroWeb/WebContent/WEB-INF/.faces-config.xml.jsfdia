@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#publico#usuario.xhtml"
+  PATH="/publico/usuario.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#publico#usuario.xhtml:0" NAME="item"
+   PATH="/publico/usuario.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="usuarioSucesso::#publico#usuarioSucesso.xhtml" NAME="output"
+    PATH="/publico/usuarioSucesso.xhtml"
+    TARGET="rules:#publico#usuarioSucesso.xhtml" TITLE="usuarioSucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#publico#usuario.xhtml:1" NAME="item1"
+   PATH="/publico/usuario.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="alteraSenha::#restrito#alteraSenha.xhtml"
+    NAME="output" PATH="/restrito/alteraSenha.xhtml"
+    TARGET="rules:#restrito#alteraSenha.xhtml" TITLE="alteraSenha" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#publico#usuarioSucesso.xhtml"
+  PATH="/publico/usuarioSucesso.xhtml" SHAPE="448,17,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#publico#login.xhtml"
+  PATH="/publico/login.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#publico#login.xhtml:0" NAME="item"
+   PATH="/publico/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="usuario::#publico#usuario.xhtml"
+    NAME="output" PATH="/publico/usuario.xhtml"
+    TARGET="rules:#publico#usuario.xhtml" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#restrito#principal.xhtml"
+  PATH="/restrito/principal.xhtml" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#restrito#principal.xhtml:0" NAME="item"
+   PATH="/restrito/principal.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="alteraSenha::#restrito#alteraSenha.xhtml"
+    NAME="output" PATH="/restrito/alteraSenha.xhtml"
+    TARGET="rules:#restrito#alteraSenha.xhtml" TITLE="alteraSenha" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#restrito#alteraSenha.xhtml"
+  PATH="/restrito/alteraSenha.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin#principal.xhtml"
+  PATH="/admin/principal.xhtml" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#admin#principal.xhtml:0" NAME="item"
+   PATH="/admin/principal.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="alteraSenha::#restrito#alteraSenha.xhtml"
+    NAME="output" PATH="/restrito/alteraSenha.xhtml"
+    TARGET="rules:#restrito#alteraSenha.xhtml" TITLE="alteraSenha" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

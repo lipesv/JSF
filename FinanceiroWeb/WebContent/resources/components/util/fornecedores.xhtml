@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<composite:interface>
+
+	<composite:attribute name="width" required="true" />
+	<composite:attribute name="height" required="true" />
+	<composite:attribute name="lista" type="java.util.List" required="true" />
+	<composite:attribute name="botaoExclusao" type="java.lang.Boolean"
+		default="true" />
+	<composite:attribute name="botaoEdicao" type="java.lang.Boolean"
+		default="true" />
+
+</composite:interface>
+<!-- INTERFACE -->
+
+<!-- IMPLEMENTATION -->
+
+<composite:implementation>
+
+	<p:dataTable scrollable="false"
+		style="width:#{cc.attrs.width}; height:#{cc.attrs.height}"
+		value="#{cc.attrs.lista}" var="fornecedor">
+
+		<p:column width="400">
+			<f:facet name="header">Nome</f:facet>
+			<h:outputText value="#{fornecedor.nomeFantasia}" />
+		</p:column>
+
+		<p:column width="250">
+			<f:facet name="header">E-mail</f:facet>
+			<h:outputText value="#{fornecedor.email}" />
+		</p:column>
+
+		<p:column width="10" rendered="#{cc.attrs.botaoEdicao}">
+			<p:commandLink action="#{fornecedorBean.editar}" update=":cadastro"
+				oncomplete="PF('dlgFornecedores').show();resetWizard();">
+				<h:graphicImage library="imagens" name="editar16.png" />
+				<f:setPropertyActionListener target="#{fornecedorBean.fornecedor}"
+					value="#{fornecedor}" />
+			</p:commandLink>
+		</p:column>
+
+		<p:column width="10" rendered="#{cc.attrs.botaoExclusao}">
+			<p:commandLink action="#{fornecedorBean.excluir}" update=":listagem"
+				onclick="if(!confirm('Confirma a exclusão do fornecedor #{fornecedor.nomeFantasia}?')) return false;">
+				<h:graphicImage library="imagens" name="excluir16.png" />
+				<f:setPropertyActionListener target="#{fornecedorBean.fornecedor}"
+					value="#{fornecedor}" />
+			</p:commandLink>
+		</p:column>
+
+
+	</p:dataTable>
+
+</composite:implementation>
+
+<!-- IMPLEMENTATION -->
+
+</html>

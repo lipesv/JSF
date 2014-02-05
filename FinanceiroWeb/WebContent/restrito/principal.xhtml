@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components/util">
+
+<ui:composition template="/templates/principal.xhtml">
+
+	<ui:define name="css">
+		<style type="text/css">
+			.lancamento {
+				vertical-align: baseline;
+			}
+		</style>
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form>
+
+			<table cellpadding="5">
+				<tr>
+					<td class="lancamento">
+						<h:panelGroup>
+							<fieldset>
+								<legend>Lançamentos até hoje</legend>
+								<util:extrato 
+									width="350px" 
+									height="auto"
+									lista="#{lancamentoBean.listaAteHoje}" 
+									larguraDescricao="130"
+									botaoExclusao="false" 
+									botaoEdicao="false" 
+									colunaSaldo="false" />
+							</fieldset>
+						</h:panelGroup>
+					</td>
+					<td class="lancamento">
+						<h:panelGroup>
+							<fieldset>
+								<legend>Lançamentos Futuros</legend>
+								<util:extrato 
+									width="350px" 
+									height="auto"
+									lista="#{lancamentoBean.listaFuturos}" 
+									larguraDescricao="130"
+									botaoExclusao="false" 
+									botaoEdicao="false" 
+									colunaSaldo="false" />
+							</fieldset>
+						</h:panelGroup>
+					</td>
+				</tr>
+			</table>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

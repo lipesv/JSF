@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+		Lançamentos
+	</ui:define>
+
+	<ui:define name="scripts">
+
+		<h:outputScript library="js" name="jquery-1.9.1.min.js" />
+		<h:outputScript library="js" name="jquery-ui-1.10.3.custom.min.js" />
+		<h:outputScript library="js" name="jquery.ui.datepicker-pt-BR.js" />
+		<h:outputScript library="js" name="jquery.meio.mask.min.js" />
+		<h:outputScript library="js" name="jquery.maskMoney.js" />
+
+		<script type="text/javascript">
+		
+			$(document).ready(
+				function(){
+
+					setUp();
+
+// 					$("input[id*='data']").datepicker({
+// 						changeMonth: true,
+// 				      	changeYear: true,
+// 						showButtonPanel: true,
+// 						showOn : "button",
+// 						buttonImage: "#{resource['imagens:calendar.gif']}",
+// 						buttonImageOnly: true,
+// 						buttonText: "Selecione uma data para o lançamento"
+// 					});
+
+// 					$("input[id*='data']").datepicker($.datepicker.regional["pt-BR"]);
+// 					$("input[id*='data']").setMask("99/99/9999");
+					
+// 					$("img.ui-datepicker-trigger").css("padding-left", "3px");
+
+// 					$("input[id*='valor']").maskMoney({allowZero:false, allowNegative:false, defaultZero:false, thousands:'.', decimal:','});
+				}
+			);
+
+			function setUp(){
+
+// 				alert('a');
+				
+				$("input[id*='data']").datepicker({
+					changeMonth: true,
+			      	changeYear: true,
+					showButtonPanel: true,
+					showOn : "button",
+					buttonImage: "#{resource['imagens:calendar.gif']}",
+					buttonImageOnly: true,
+					buttonText: "Selecione uma data para o lançamento"
+				});
+
+				$("input[id*='data']").datepicker($.datepicker.regional["pt-BR"]);
+				$("input[id*='data']").setMask("99/99/9999");
+				
+				$("img.ui-datepicker-trigger").css("padding-left", "3px");
+
+				$("input[id*='valor']").maskMoney({allowZero:false, allowNegative:false, defaultZero:false, thousands:'.', decimal:','});
+			}
+			
+		</script>
+
+	</ui:define>
+
+	<ui:define name="corpo">
+		<ui:include src="lancamento_edicao.xhtml" />
+		<br />
+		<ui:include src="lancamento_lista.xhtml" />
+	</ui:define>
+
+</ui:composition>
+</html>

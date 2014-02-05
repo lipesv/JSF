@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition>
+
+	<p:messages id="mensagemDialog" showDetail="true" closable="true"
+		escape="false" />
+
+	<h:form id="cadastro">
+
+		<p:wizard flowListener="#{fornecedorBean.onFlowProcess}" widgetVar="wiz" backLabel="Anterior" nextLabel="Próximo">
+
+			<p:tab id="fornecedor" title="Fornecedor">
+
+				<p:panel header="Dados Fornecedor">
+
+					<h:panelGrid columns="2" columnClasses="formColumn">
+
+						<p:outputLabel for="razaoSocial" value="Razão Social: " />
+						<p:inputText id="razaoSocial"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							value="#{fornecedorBean.fornecedor.razaoSocial}" size="60"
+							required="true" />
+
+						<p:outputLabel for="nomeFantasia" value="Nome Fantasia: " />
+						<p:inputText id="nomeFantasia"
+							value="#{fornecedorBean.fornecedor.nomeFantasia}" size="50" />
+
+						<p:outputLabel for="cnpj" value="CNPJ: " />
+						<p:inputMask id="cnpj" value="#{fornecedorBean.fornecedor.cnpj}"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							required="true" size="25" mask="99.999.999/9999-99" />
+
+						<p:outputLabel for="cpf" value="CPF (pessoa física): " />
+						<p:inputMask id="cpf" value="#{fornecedorBean.fornecedor.cpf}"
+							size="25" mask="999.999.999-99" />
+
+						<p:outputLabel for="emailEmpresa" value="E-mail da empresa: " />
+						<p:inputText id="emailEmpresa"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							value="#{fornecedorBean.fornecedor.email}" required="true"
+							size="50">
+							<f:validator validatorId="emailValidator" />
+						</p:inputText>
+
+						<p:outputLabel for="telefoneEmpresa" value="Telefone: " />
+						<p:inputMask id="telefoneEmpresa"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							value="#{fornecedorBean.fornecedor.telefone}" required="true"
+							mask="(99) 9999-9999" />
+
+						<p:outputLabel for="faxEmpresa" value="Fax: " />
+						<p:inputMask id="faxEmpresa"
+							value="#{fornecedorBean.fornecedor.fax}" mask="(99) 9999-9999" />
+
+						<p>dados bancários</p>
+						<p:outputLabel value="" />
+
+						<p:outputLabel for="banco" value="Banco: " />
+						<p:inputText id="banco" value="#{fornecedorBean.fornecedor.banco}" />
+
+						<p:outputLabel for="agencia" value="Agência: " />
+						<p:inputText id="agencia"
+							value="#{fornecedorBean.fornecedor.agencia}" />
+
+						<p:outputLabel for="contaCorrente" value="Conta corrente: " />
+						<p:inputText id="contaCorrente"
+							value="#{fornecedorBean.fornecedor.contaCorrente}" />
+
+					</h:panelGrid>
+				</p:panel>
+
+
+
+			</p:tab>
+
+			<p:tab id="endereco" title="Endereço">
+
+				<p:panel header="Endereço Fornecedor">
+
+					<h:panelGrid columns="2" columnClasses="formColumn">
+
+						<p:outputLabel for="logradouro" value="Logradouro: " />
+						<p:inputText id="logradouro"
+							value="#{fornecedorBean.endereco.logradouro}" size="60"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							required="true" />
+
+						<p:outputLabel for="numero" value="Número: " />
+						<p:inputText id="numero" value="#{fornecedorBean.endereco.numero}"
+							size="11"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							required="true" />
+
+						<p:outputLabel for="complemento" value="Complemento: " />
+						<p:inputText id="complemento"
+							value="#{fornecedorBean.endereco.complemento}" size="50"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}" />
+
+						<p:outputLabel for="bairro" value="Bairro: " />
+						<p:inputText id="bairro" value="#{fornecedorBean.endereco.bairro}"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							size="50" required="true" />
+
+						<p:outputLabel for="cep" value="CEP: " />
+						<p:inputMask id="cep" value="#{fornecedorBean.endereco.cep}"
+							size="11"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							required="true" mask="99999-999" />
+
+						<p:outputLabel for="estado" value="Estado: " />
+						<p:selectOneMenu id="estado" required="true"
+							value="#{fornecedorBean.endereco.estado.codigo}">
+							<f:selectItem itemLabel="Selecione um estado" itemValue="" />
+							<f:selectItems value="#{fornecedorBean.estados}" var="estado"
+								itemValue="#{estado.codigo}" itemLabel="#{estado.nome}" />
+							<p:ajax update="cidade"
+								listener="#{fornecedorBean.listaCidadesporEstado}"
+								onstart="validateSelectOneParent()"
+								oncomplete="initializeFormElements()" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="cidade" value="Cidade: " />
+						<p:selectOneMenu id="cidade" required="true"
+							value="#{fornecedorBean.endereco.cidade.codigo}">
+							<f:selectItem itemLabel="Selecione uma cidade" itemValue="" />
+							<f:selectItems value="#{fornecedorBean.cidades}" var="cidade"
+								itemValue="#{cidade.codigo}" itemLabel="#{cidade.nome.trim()}" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+				</p:panel>
+
+			</p:tab>
+
+			<p:tab id="contato" title="Contato">
+
+				<p:panel header="Contato Fornecedor">
+
+					<h:panelGrid columns="2" columnClasses="formColumn">
+
+						<p:outputLabel for="nomeContato" value="Nome: " />
+						<p:inputText id="nomeContato"
+							value="#{fornecedorBean.contato.nome}"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							required="true" size="60" />
+
+						<p:outputLabel for="cargoContato" value="Cargo: " />
+						<p:inputText id="cargoContato"
+							value="#{fornecedorBean.contato.cargo}"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}" />
+
+						<p:outputLabel for="emailContato" value="E-mail: " />
+						<p:inputText id="emailContato"
+							value="#{fornecedorBean.contato.email}"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							required="true" size="50">
+							<f:validator validatorId="emailValidator" />
+						</p:inputText>
+
+						<p:outputLabel for="telefoneContato" value="Telefone: " />
+						<p:inputMask id="telefoneContato"
+							title="#{component.valid ? '' : fornecedorBean.exibirMensagemValidacao(component.clientId)}"
+							value="#{fornecedorBean.contato.telefone}" required="true"
+							mask="(99) 9999-9999" />
+
+					</h:panelGrid>
+
+					<p:commandButton value="Salvar" update="cadastro"
+						actionListener="#{fornecedorBean.salvar}"
+						style="margin-top: 10px;"
+						oncomplete="initializeFormElements();handleRequest(xhr, status, args);">
+					</p:commandButton>
+
+				</p:panel>
+
+			</p:tab>
+
+		</p:wizard>
+
+		<pe:tooltip global="true" myPosition="left center"
+			atPosition="right center" for="@(.ui-state-error)" />
+
+	</h:form>
+
+</ui:composition>
+
+</html>

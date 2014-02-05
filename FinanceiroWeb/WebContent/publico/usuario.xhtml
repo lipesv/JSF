@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+		Cadastro de Usuários
+	</ui:define>
+
+
+	<ui:define name="scripts">
+
+		<h:outputScript library="js" name="jquery-1.9.1.min.js" />
+		<h:outputScript library="js" name="jquery-ui-1.10.3.custom.min.js" />
+		<h:outputScript library="js" name="jquery.ui.datepicker-pt-BR.js" />
+		<h:outputScript library="js" name="jquery.meio.mask.min.js" />
+		<h:outputScript library="js" name="jquery.maskMoney.js" />
+
+		<script type="text/javascript">
+			$(document).ready(
+				function(){
+
+					$("input[id*='nascimento']").datepicker({
+						changeMonth: true,
+				      	changeYear: true,
+						showButtonPanel: true,
+						showOn : "button",
+						buttonImage: "#{resource['imagens:calendar.gif']}",
+						buttonImageOnly: true,
+						buttonText: "Selecione uma data para o lançamento"
+					});
+
+					$("input[id*='nascimento']").datepicker($.datepicker.regional["pt-BR"]);
+					$("input[id*='nascimento']").setMask({autoTab: false});
+					
+					$("img.ui-datepicker-trigger").css("padding-left", "5px");
+
+					$("input[id*='celular']").setMask({autoTab: false});
+
+					
+					if($("input[id*='saldoInicial']").val() == "0,00"){
+						$("input[id*='saldoInicial']").val("");
+					}
+
+					$("input[id*='saldoInicial']").maskMoney({allowZero:false, allowNegative:false, defaultZero:false, thousands:'.', decimal:','});
+
+					setTimeout("limpaCamposFormulario()",50);
+				}
+			);
+
+			function limpaCamposFormulario(){
+
+				if($("input[id$='login']").val() != "")
+					$("input[id$='login']").val("");
+
+				if($("input[id$='senha']").val() != "")
+					$("input[id$='senha']").val("");				
+			}
+
+		</script>
+
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:tooltip />
+
+		<h:form id="cadastro">
+
+			<p:messages closable="true" autoUpdate="true" />
+
+
+			<h:inputHidden value="#{usuarioBean.usuario.codigo}" />
+			<h:inputHidden value="#{usuarioBean.usuario.ativo}" />
+			<h:inputHidden value="#{usuarioBean.destinoSalvar}" />
+			<h:inputHidden value="#{usuarioBean.usuario.senha}" />
+
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="Nome:" for="nome" />
+				<p:inputText id="nome" label="Nome"
+					value="#{usuarioBean.usuario.nome}" size="60" maxlength="60"
+					required="true" requiredMessage="Você não tem nome?">
+					<f:validateLength minimum="10" maximum="30" />
+				</p:inputText>
+
+				<h:outputLabel value="Data Nascimento:" for="nascimento" />
+				<p:inputText id="nascimento" required="true" size="11"
+					value="#{usuarioBean.usuario.nascimemto}"
+					label="Data de Nascimento" alt="date">
+					<f:convertDateTime dateStyle="medium" />
+				</p:inputText>
+
+
+				<h:outputLabel value="Celular:" for="celular" />
+				<p:inputText id="celular" label="Celular"
+					value="#{usuarioBean.usuario.celular}" size="14" alt="phone" />
+
+				<h:outputLabel value="e-Mail:" for="email" />
+				<h:panelGroup>
+					<p:inputText id="email" label="e-Mail"
+						requiredMessage="E-mail não informado"
+						value="#{usuarioBean.usuario.email}" size="50" maxlength="50"
+						required="true">
+						<f:validator validatorId="emailValidator" />
+					</p:inputText>
+					<p:message for="email" display="tooltip" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Idioma:" for="idioma" />
+				<p:selectOneMenu id="idioma" value="#{usuarioBean.usuario.idioma}"
+					required="true" label="Idioma">
+					<f:selectItem itemValue="" itemLabel="Selecione um idioma" />
+					<f:selectItem itemValue="pt_BR" itemLabel="Português" />
+					<f:selectItem itemValue="en_US" itemLabel="English" />
+					<f:selectItem itemValue="es_ES" itemLabel="Espanol" />
+				</p:selectOneMenu>
+
+				<h:outputLabel value="Login:" for="login" />
+				<p:inputText id="login" label="Login"
+					value="#{usuarioBean.usuario.login}" size="15" maxlength="15"
+					required="true" readonly="#{!empty contextoBean.usuarioLogado}"
+					validatorMessage="Login deve ter no mínimo 5 e no máximo 15 caracteres e só pode ter os símbolos '.' e '_'.">
+					<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}" />
+				</p:inputText>
+
+				<h:outputLabel value="Senha:" for="senha"
+					rendered="#{empty contextoBean.usuarioLogado}" />
+
+				<p:inputText type="password" id="senha" label="Senha"
+					value="#{usuarioBean.usuario.senha}" size="15" maxlength="15"
+					required="#{empty contextoBean.usuarioLogado}"
+					redisplay="#{empty contextoBean.usuarioLogado}"
+					rendered="#{empty contextoBean.usuarioLogado}" />
+
+				<h:outputLabel value="Confirmar Senha:" for="confirmarsenha"
+					rendered="#{empty contextoBean.usuarioLogado}" />
+				<p:inputText type="password" id="confirmarsenha"
+					label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}"
+					size="15" maxlength="15" required="true" redisplay="true"
+					rendered="#{empty contextoBean.usuarioLogado}" />
+
+			</h:panelGrid>
+
+			<br />
+
+			<h:panelGroup rendered="#{empty contextoBean.usuarioLogado}">
+
+				<fieldset style="width: 422px">
+					<legend>Conta Inicial</legend>
+					<h:panelGrid columns="2">
+
+						<h:outputLabel value="Descrição" for="descricao" />
+						<p:inputText id="descricao" label="Descrição Conta Inicial"
+							value="#{usuarioBean.conta.descricao}" required="true"
+							maxlength="45" />
+
+						<h:outputLabel value="Saldo Inicial: " for="saldoInicial" />
+						<p:inputText id="saldoInicial" label="Saldo Inicial"
+							value="#{usuarioBean.conta.saldoInicial}" size="10">
+							<f:convertNumber minFractionDigits="2" />
+						</p:inputText>
+
+					</h:panelGrid>
+
+				</fieldset>
+
+			</h:panelGroup>
+
+			<br />
+
+			<p:commandButton value="Salvar" ajax="false"
+				action="#{usuarioBean.salvar}" />
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

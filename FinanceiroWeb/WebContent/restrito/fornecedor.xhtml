@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+		Fornecedores
+	</ui:define>
+
+	<ui:define name="scripts">
+
+		<style type="text/css">
+.formColumn {
+	padding-right: 10px;
+	text-align: right;
+	white-space: nowrap;
+	width: 1%
+}
+
+#cadastro tr td {
+	padding-top: 10px;
+}
+
+p {
+	float: left;
+	text-transform: uppercase;
+	color: #e28444;
+	font-family: AgendaBoldRegular;
+	font-size: 14px
+}
+
+#mensagemDialog {
+	white-space: pre;
+}
+</style>
+
+		<script type="text/javascript">
+
+			$(document).ready(
+				function() {
+					initializeFormElements();
+				}
+			);
+
+			function initializeFormElements() {
+				$("select[id*='estado'] option:first").attr("value", "");
+				$("select[id*='cidade'] option:first").attr('selected','selected');
+			}
+
+// 			function intializeWizard(){
+				
+// 				$("li.ui-wizard-step-title").each(
+// 					function(i){
+
+// 						var step = null;
+
+// 						if(i > 0){
+
+// 							step = $(this);
+							
+// 							if($(step).hasClass('ui-state-highlight')){
+// 								$(step).removeClass("ui-state-highlight");
+// 								$("ul.ui-wizard-step-titles li:first-child").addClass("ui-state-highlight");
+// 								resetWizard();
+// 								return;							
+// 							}
+// 						}
+// 					}
+// 				);
+// 			}
+
+			function resetWizard(){
+				wiz.loadStep(wiz.cfg.steps[0], true);
+			}
+
+			function validateSelectOneParent() {
+				
+				if ($("select[id*='estado'] option:selected").val() == "") {
+					$("select[id*='estado'] option:selected").attr("value", "0");
+				}
+			}
+	
+			function handleRequest(xhr, status, args) {
+	
+				// <![CDATA[
+	
+				var validacao = args.validationFailed != undefined;
+				var erro = (args.erroProcessamento != undefined && args.erroProcessamento);
+	
+				if (!validacao && !erro)
+					PF('dlgFornecedores').hide();
+	
+				// ]]>
+			}
+
+		</script>
+
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:growl id="mensagem" showDetail="true" />
+
+		<p:ajaxStatus id="ajaxStatusPanel"
+			style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+			<f:facet name="start">
+				<h:graphicImage library="imagens" name="ajax-loader.gif" />
+			</f:facet>
+		</p:ajaxStatus>
+
+		<h:form id="dialog">
+			<p:commandButton value="Novo" process="@this"
+				actionListener="#{fornecedorBean.novo}" update=":cadastro"
+				oncomplete="PF('dlgFornecedores').show();initializeFormElements();resetWizard()" />
+		</h:form>
+
+		<br />
+
+		<ui:include src="fornecedor_lista.xhtml" />
+
+	</ui:define>
+
+</ui:composition>
+</html>

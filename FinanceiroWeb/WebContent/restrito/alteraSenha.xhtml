@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">Alteração de Senha</ui:define>
+
+	<ui:define name="corpo">
+
+		<h1>Alteração de Senha</h1>
+		<h:form>
+
+			<h:inputHidden value="#{usuarioBean.destinoSalvar}" />
+
+			<h:messages />
+
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="Login" for="login" />
+				<h:inputText id="login" value="#{request.remoteUser}" size="30"
+					maxlength="30" disabled="true" />
+
+				<h:outputLabel value="Senha Atual:" for="senhaAtual" />
+				<h:inputSecret id="senhaAtual" label="Senha Atual"
+					value="#{usuarioBean.usuario.senha}" size="15" maxlength="15"
+					required="true" redisplay="true" />
+
+				<h:outputLabel value="Nova Senha:" for="novaSenha" />
+				<h:inputSecret id="novaSenha" label="Nova Senha"
+					value="#{usuarioBean.novaSenha}" size="15" maxlength="15"
+					required="true" redisplay="true" />
+
+				<h:outputLabel value="Confirmar Senha:" for="confirmarsenha" />
+				<h:inputSecret id="confirmarsenha" label="Confirmar Senha"
+					value="#{usuarioBean.confirmarSenha}" size="15" maxlength="15"
+					required="true" redisplay="true" />
+
+				<h:commandButton action="#{usuarioBean.redefinirSenha}"
+					value="Salvar" />
+
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
